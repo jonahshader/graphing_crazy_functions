@@ -6,17 +6,17 @@ fun main() {
 }
 
 fun getDelta(x: Double, y: Double, expr1: (Double, Double) -> (Double), expr2: (Double, Double) -> (Double)) : Double = expr1(x, y) - expr2(x, y)
-fun getColor(x: Double, y: Double, expr1: (Double, Double) -> (Double), expr2: (Double, Double) -> (Double)) : Double = max(255.0 - (getDelta(x, y, expr1, expr2)).absoluteValue * 256, 0.0)
+fun getColor(x: Double, y: Double, expr1: (Double, Double) -> (Double), expr2: (Double, Double) -> (Double)) : Double = max(255.0 - (getDelta(x, y, expr1, expr2)).absoluteValue * 512, 0.0)
 
 class App : PApplet() {
-    val expr1: (Double, Double) -> (Double) = { x, y -> log(x, y) }
-    val expr2: (Double, Double) -> (Double) = { x, y -> log(sin(y), (x*y).absoluteValue) }
+    val expr1: (Double, Double) -> (Double) = { x, y -> cos(x.pow(2)) }
+    val expr2: (Double, Double) -> (Double) = { x, y -> cos(y.pow(2)) }
 
     var currentX = 0
     var currentY = 0
 
     override fun settings() {
-        size(1024, 1024)
+        size(2560 * 2, 1440 * 2)
         noSmooth()
     }
 
@@ -33,7 +33,7 @@ class App : PApplet() {
 //                    }
 //                }
 //                pixelBrightness /= 9.0f
-                pixelBrightness = getColor((x - (width / 2)).toDouble() * .125 * .125, -(y - (height / 2)).toDouble() * .125 * .125, expr1, expr2).toFloat()
+                pixelBrightness = getColor((x - (width / 2)).toDouble() * .125.pow(2), -(y - (height / 2)).toDouble() * .125.pow(2), expr1, expr2).toFloat()
                 stroke(pixelBrightness, pixelBrightness, pixelBrightness)
                 point(x.toFloat(), y.toFloat())
             }
@@ -53,5 +53,9 @@ class App : PApplet() {
 //                }
 //            }
 //        }
+    }
+
+    override fun mousePressed() {
+        save("screencap.png")
     }
 }
