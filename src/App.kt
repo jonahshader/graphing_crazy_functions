@@ -11,14 +11,14 @@ fun getDelta(x: Double, y: Double, expr1: (Double, Double) -> (Double), expr2: (
 fun getColor(x: Double, y: Double, expr1: (Double, Double) -> (Double), expr2: (Double, Double) -> (Double)) : Double = max(255.0 - (getDelta(x, y, expr1, expr2)).absoluteValue * 512, 0.0)
 
 class App : PApplet() {
-    val expr1: (Double, Double) -> (Double) = { x, y -> log(cos(x.pow(2)), y.pow(2)) }
-    val expr2: (Double, Double) -> (Double) = { x, y -> cos(y.pow(2)) }
+    val expr1: (Double, Double) -> (Double) = { x, y -> 2.0.pow(cos(x.pow(y))) }
+    val expr2: (Double, Double) -> (Double) = { x, y -> 2.0.pow(cos(y.pow(x))) }
 
     var currentX = 0
     var currentY = 0
 
     override fun settings() {
-        size(640, 640)
+        size(1000, 1000)
         noSmooth()
     }
 
@@ -43,7 +43,6 @@ class App : PApplet() {
                     pixels[x * width + y] = color(pixelBrightness)
                 }
             }
-
         }
         updatePixels()
     }
